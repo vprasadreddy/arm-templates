@@ -8,12 +8,14 @@
         "description": "Enter Service Plan Name"
       }
     },
-    // "webAppName": {
-    //     "type": "string",
-    //     "metadata": {
-    //         "description": "Enter Webapp name"
-    //     }
-    // },
+    /*
+     "webAppName": {
+         "type": "string",
+         "metadata": {
+             "description": "Enter Webapp name"
+         }
+    },
+    */
     "sku ": {
       "type": "string",
       "metadata": {
