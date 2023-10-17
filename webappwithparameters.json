@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlan": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter Service Plan Name"
+      }
+    },
+    "webAppName": {
+      "type": "string",
+      "metadata": {
+        "description": "Enter Webapp name"
+      }
+    },
+    "sku ": {
+      "type": "string",
+      "metadata": {
+        "description": "Choose SKU value"
+      },
+      "allowedValues": ["F1", "B1"]
+    }
+  },
+  "functions": [],
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('appServicePlan')]",
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-12-01",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[parameters('sku ')]",
+        "capacity": 1
+      },
+      "tags": {
+        "displayName": "[parameters('appServicePlan')]"
+      },
+      "properties": {
+        "name": "[parameters('appServicePlan')]"
+      }
+    },
+    {
+      "name": "[parameters('webAppName')]",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2020-12-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
+        "displayName": "[parameters('webAppName')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlan'))]"
+      ],
+      "properties": {
+        "name": "[parameters('webAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlan'))]"
+      }
+    }
+  ],
+  "outputs": {}
+}
